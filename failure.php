@@ -1,63 +1,3 @@
-<?php
-// SDK de Mercado Pago
-require __DIR__ .  '/vendor/autoload.php';
-
-// Agrega credenciales
-MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
-$preference = new MercadoPago\Preference();
-
-$payer = new MercadoPago\Payer();
-$payer->name = "Lalo";
-$payer->surname = "Landa";
-$payer->email = "test_user_63274575@testuser.com";
-$payer->phone = array(
-    "area_code" => "11",
-    "number" => "22223333"
-  );
-    
-  $payer->address = array(
-    "street_name" => "False",
-    "street_number" => 123,
-    "zip_code" => "1111"
-  );
-
-$item = new MercadoPago\Item();
-$item->id = 1234;
-$item->title = $_POST['title'];
-$item->quantity = $_POST['unit'];
-$item->unit_price = $_POST['price'];
-$item->description = "Dispositivo móvil de Tienda e-commerce";
-$item->picture_url = "https://micaschejner-mp-ecommerce-php.herokuapp.com" . substr($_POST['img'],1);
-$preference->items = array($item);
-$preference->payer = $payer;
-$preference->external_reference = "micaela.sch.aquino@gmail.com";
-
-//URL de retorno
-$preference->back_urls = array(
-    "success" => "https://micaschejner-mp-ecommerce-php.herokuapp.com/success.php",
-    "failure" => "https://micaschejner-mp-ecommerce-php.herokuapp.com/failure.php",
-    "pending" => "https://micaschejner-mp-ecommerce-php.herokuapp.com/pending.php"
-);
-$preference->auto_return = "approved";
-
-//Medios de pago
-$preference->payment_methods = array(
-    "excluded_payment_types" => array(
-      array("id" => "atm",
-            "id" => "amex")
-    ),
-    "excluded_payment_methods" => array(
-      array("id" => "amex")
-    ),
-    "installments" => 6
-  );
-$preference->save();
-// echo "<pre>";
-// var_dump($preference);
-// die();
-
-?>
-
 <!DOCTYPE html>
 <html class="supports-animation supports-columns svg no-touch no-ie no-oldie no-ios supports-backdrop-filter as-mouseuser" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
@@ -71,22 +11,7 @@ $preference->save();
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
-    <script src="https://www.mercadopago.com/v2/security.js" view="detail"></script>
 
-    <!-- <script type="text/javascript">
-        $(document).ready(function(){
-            $('#mercadopago-button').click(function(e){
-                e.preventDefault();
-                $.ajax({
-                    type: "POST",
-                    url: 'create_preference.php'
-                })
-            })
-
-        })
-        
-    </script> -->
-        
 
     <link rel="stylesheet" href="./assets/category-landing.css" media="screen, print">
 
@@ -142,74 +67,19 @@ $preference->save();
 
                 <div id="accessories-tab" class="as-accessories-details">
                     <div class="as-accessories" id="as-accessories">
-                        <div class="as-accessories-header">
-                            <div class="as-search-results-count">
-                                <span class="as-search-results-value"></span>
-                            </div>
-                        </div>
                         <div class="as-searchnav-placeholder" style="height: 77px;">
                             <div class="row as-search-navbar" id="as-search-navbar" style="width: auto;">
                                 <div class="as-accessories-filter-tile column large-6 small-3">
 
                                     <button class="as-filter-button" aria-expanded="true" aria-controls="as-search-filters" type="button">
                                         <h2 class=" as-filter-button-text">
-                                            Smartphones
+                                            Failure
                                         </h2>
                                     </button>
 
 
                                 </div>
 
-                            </div>
-                        </div>
-                        <div class="as-accessories-results  as-search-desktop">
-                            <div class="width:60%">
-                                <div class="as-producttile-tilehero with-paddlenav " style="float:left;">
-                                    <div class="as-dummy-container as-dummy-img">
-
-                                        <img src="./assets/wireless-headphones" class="ir ir item-image as-producttile-image  " style="max-width: 70%;max-height: 70%;"alt="" width="445" height="445">
-                                    </div>
-                                    <div class="images mini-gallery gal5 ">
-                                    
-
-                                        <div class="as-isdesktop with-paddlenav with-paddlenav-onhover">
-                                            <div class="clearfix image-list xs-no-js as-util-relatedlink relatedlink" data-relatedlink="6|Powerbeats3 Wireless Earphones - Neighborhood Collection - Brick Red|MPXP2">
-                                                <div class="as-tilegallery-element as-image-selected">
-                                                    <div class=""></div>
-                                                    <img src="./assets/003.jpg" class="ir ir item-image as-producttile-image" alt="" width="445" height="445" style="content:-webkit-image-set(url(<?php echo $_POST['img'] ?>) 2x);">
-                                                </div>
-                                                
-                                            </div>
-
-                                            
-                                        </div>
-
-                                        
-
-                                    </div>
-
-                                </div>
-                                <div class="as-producttile-info" style="float:left;min-height: 168px;">
-                                    <div class="as-producttile-titlepricewraper" style="min-height: 128px;">
-                                        <div class="as-producttile-title">
-                                            <h3 class="as-producttile-name">
-                                                <p class="as-producttile-tilelink">
-                                                    <span data-ase-truncate="2"><?php echo $_POST['title'] ?></span>
-                                                </p>
-
-                                            </h3>
-                                        </div>
-                                        <h3 >
-                                            <?php echo $_POST['price'] ?>
-                                        </h3>
-                                        <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
-                                        </h3>
-                                    </div>
-                                    <form action="<?php echo $preference->init_point; ?>" method="POST">
-                                    <button type="submit" class="mercadopago-button" formmethod="post">Pagar la compra</button>
-                                    </form>
-                                </div>
                             </div>
                         </div>
                     </div>
