@@ -4,6 +4,8 @@ require __DIR__ .  '/vendor/autoload.php';
 
 // Agrega credenciales
 MercadoPago\SDK::setAccessToken('APP_USR-6317427424180639-042414-47e969706991d3a442922b0702a0da44-469485398');
+// Agrega integrator id
+MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
 $preference = new MercadoPago\Preference();
 
 $payer = new MercadoPago\Payer();
@@ -31,6 +33,10 @@ $item->picture_url = "https://micaschejner-mp-ecommerce-php.herokuapp.com" . sub
 $preference->items = array($item);
 $preference->payer = $payer;
 $preference->external_reference = "micaela.sch.aquino@gmail.com";
+
+//URL de notificación
+$preference->notification_url = "https://527385dcd7869020461c76077d84dfcb.m.pipedream.net";
+
 
 //URL de retorno
 $preference->back_urls = array(
@@ -200,10 +206,10 @@ $preference->save();
                                             </h3>
                                         </div>
                                         <h3 >
-                                            <?php echo $_POST['price'] ?>
+                                            <?php echo $_POST['unit'] ?>
                                         </h3>
                                         <h3 >
-                                            <?php echo "$" . $_POST['unit'] ?>
+                                            <?php echo "$" . $_POST['price'] ?>
                                         </h3>
                                     </div>
                                     <form action="<?php echo $preference->init_point; ?>" method="POST">
