@@ -49,8 +49,7 @@ $preference->auto_return = "approved";
 //Medios de pago
 $preference->payment_methods = array(
     "excluded_payment_types" => array(
-      array("id" => "atm",
-            "id" => "amex")
+      array("id" => "atm")
     ),
     "excluded_payment_methods" => array(
       array("id" => "amex")
